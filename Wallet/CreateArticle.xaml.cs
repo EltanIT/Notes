@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Xml.Serialization;
 
 namespace Wallet
@@ -33,18 +23,27 @@ namespace Wallet
       
         private void Click_CreateArticle(object sender, RoutedEventArgs e)
         {
-            Article article = new Article(NameTextBox.Text,"" , DateTime.Now);
+            if (!string.IsNullOrWhiteSpace(NameTextBox.Text))
+            {
+                Article article = new Article(NameTextBox.Text, "Описание", DateTime.Now);
 
-            ListViewItem LVI = new ListViewItem();
-            LVI.Tag = article;
-            LVI.Content = article.Name;
+                ListViewItem LVI = new ListViewItem();
+                LVI.Tag = article;
+                LVI.Content = article.Name;
 
-            ListViewArticles.Items.Add(LVI);
+                ListViewArticles.Items.Add(LVI);
 
-            SerializableDate();
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.update(ListViewArticles);
-            Close();
+                SerializableDate();
+
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.update(ListViewArticles);
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Введите название записи!");
+            }
+            
         }
 
         private void SerializableDate()
