@@ -36,10 +36,16 @@ namespace Wallet
             }
            
         }
+        public void update(ListView listViewArticles)
+        {
+            ListViewArticles = listViewArticles;
+        }
 
         private void UpdateListView()
         {
-            Articles articles = DeserializiXML();
+            Serializable serializable = new Serializable(ListViewArticles);
+            Articles articles = serializable.DeserializiXML();
+
             foreach (Article item in articles.ArticleList)
             {
                 ListViewItem LVI = new ListViewItem();
@@ -50,51 +56,10 @@ namespace Wallet
             }
         }
 
-        public Articles DeserializiXML()
-        {
-            XmlSerializer xml = new XmlSerializer(typeof(Articles));
-
-            using (FileStream fs = new FileStream("Articles.xml", FileMode.OpenOrCreate))
-            {
-               return (Articles)xml.Deserialize(fs);
-            }
-        }
-
-        private void SerializableDate()
-        {
-            Articles articles = new Articles();
-            foreach (ListViewItem item in ListViewArticles.Items)
-            {
-                articles.ArticleList.Add((Article)item.Tag);
-            }
-
-            SerializableInXML(articles);
-        }
-
-        private void SerializableInXML(Articles articles)
-        {
-            XmlSerializer xml = new XmlSerializer(typeof(Articles));
-
-            using (StreamWriter fs = new StreamWriter("Articles.xml", false))
-            {
-                xml.Serialize(fs, articles);
-            }
-        }
-
-        public void update(ListView listViewArticles)
-        {
-            ListViewArticles = listViewArticles;
-        }
-
         private void Click_AddArticle(object sender, RoutedEventArgs e)
         {
             CreateArticle createArticle = new CreateArticle(ListViewArticles);
             createArticle.Show();
-        }
-
-        private void ListViewArticles_SelectionChanged(object sender, EventArgs e)
-        {
-            
         }
 
         private void Click_DeleteArticle(object sender, RoutedEventArgs e)
@@ -104,17 +69,18 @@ namespace Wallet
                 ListViewItem listviewitem = (ListViewItem)ListViewArticles.SelectedItems[0];
                 ListViewArticles.Items.Remove(listviewitem);
 
-                SerializableDate();
+                Serializable serializable = new Serializable(ListViewArticles);
+                serializable.SerializableDate();
 
             }
         }
+
         void lv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var item = ((FrameworkElement)e.OriginalSource).DataContext as Track;
-            if (item != null)
-            {
-                MessageBox.Show("Item's Double Click handled!");
-            }
+            ListViewItem listviewitem = (ListViewItem)ListViewArticles.SelectedItems[0];
+            Article article = (Article)listviewitem.Tag;
+            RedactArticle redactArticle = new RedactArticle(article);
+            redactArticle.Show();
         }
 
     }

@@ -33,7 +33,8 @@ namespace Wallet
 
                 ListViewArticles.Items.Add(LVI);
 
-                SerializableDate();
+                Serializable serializable = new Serializable(ListViewArticles);
+                serializable.SerializableDate();
 
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.update(ListViewArticles);
@@ -44,27 +45,6 @@ namespace Wallet
                 MessageBox.Show("Введите название записи!");
             }
             
-        }
-
-        private void SerializableDate()
-        {
-            Articles articles = new Articles();
-            foreach (ListViewItem item in ListViewArticles.Items)
-            {
-                articles.ArticleList.Add((Article)item.Tag);
-            }
-
-            SerializableInXML(articles);
-        }
-
-        private void SerializableInXML(Articles articles)
-        {
-            XmlSerializer xml = new XmlSerializer(typeof(Articles));
-
-            using (FileStream fs = new FileStream("Articles.xml", FileMode.OpenOrCreate))
-            {
-                xml.Serialize(fs, articles);
-            }
         }
 
         private void Click_CloseWindow(object sender, RoutedEventArgs e)
