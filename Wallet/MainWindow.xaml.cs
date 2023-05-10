@@ -37,29 +37,17 @@ namespace Wallet
            
         }
 
-        public void update(ListView listViewArticles)
+        public void Update(ListView listViewArticles, ListView listViewArticlesDate = null)
         {
             ListViewArticles = listViewArticles;
+            if (listViewArticlesDate != null)
+            {
+                ListViewDate = listViewArticlesDate;
+            }
+            
+
         }
 
-        public void updateDescription(Article article, int index)
-        {
-            ListViewItem LVI = new ListViewItem();
-            LVI.Tag = article;
-            ListViewArticles.Items.RemoveAt(index);
-            ListViewArticles.Items.Insert(index, LVI);
-            
-            try
-            {
-                Serializable serializable = new Serializable(ListViewArticles);
-                serializable.SerializableDate();
-                UpdateListView();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Ошибка обновления данных!");
-            }
-        }
 
         private void UpdateListView()
         {
@@ -92,6 +80,7 @@ namespace Wallet
             if (ListViewArticles.SelectedItems.Count == 1)
             {
                 ListViewItem listviewitem = (ListViewItem)ListViewArticles.SelectedItems[0];
+
                 ListViewArticles.Items.Remove(listviewitem);
                 ListViewDate.Items.Remove(listviewitem);
                 
@@ -106,9 +95,13 @@ namespace Wallet
             ListViewItem listviewitem = (ListViewItem)ListViewArticles.SelectedItems[0];
             int index = ListViewArticles.SelectedIndex;
             Article article = (Article)listviewitem.Tag;
-            RedactArticle redactArticle = new RedactArticle(article, index);
+            RedactArticle redactArticle = new RedactArticle(article, index, ListViewArticles, ListViewDate);
             redactArticle.Show();
         }
 
+        private void lv_MouseDoubleClickDate(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

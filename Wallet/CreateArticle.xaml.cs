@@ -39,13 +39,13 @@ namespace Wallet
                 serializable.SerializableDate();
 
                 MainWindow mainWindow = new MainWindow();
-                mainWindow.update(ListViewArticles);
+                mainWindow.Update(ListViewArticles);
                 Close();
             }
             else
             {
                 MessageBox.Show("Введите название записи!");
-            }ы
+            }
             
         }
 
