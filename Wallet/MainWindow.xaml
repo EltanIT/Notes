@@ -12,8 +12,13 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="ListViewArticles" Grid.Row="1" MouseDoubleClick="lv_MouseDoubleClick"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="ListViewArticles" Grid.Row="1" Grid.Column="0" Width="180" MouseDoubleClick="lv_MouseDoubleClick"/>
+        <ListView x:Name="ListViewDate" Grid.Row="1" Grid.Column="1" MouseDoubleClick="lv_MouseDoubleClick"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
             <Button Content="Добавить" Margin="5" Click="Click_AddArticle"/>
             <Button Content="Удалить" Margin="5" Click="Click_DeleteArticle"/>
         </StackPanel>

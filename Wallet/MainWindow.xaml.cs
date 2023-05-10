@@ -36,23 +36,48 @@ namespace Wallet
             }
            
         }
+
         public void update(ListView listViewArticles)
         {
             ListViewArticles = listViewArticles;
         }
 
+        public void updateDescription(Article article, int index)
+        {
+            ListViewItem LVI = new ListViewItem();
+            LVI.Tag = article;
+            ListViewArticles.Items.RemoveAt(index);
+            ListViewArticles.Items.Insert(index, LVI);
+            
+            try
+            {
+                Serializable serializable = new Serializable(ListViewArticles);
+                serializable.SerializableDate();
+                UpdateListView();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Ошибка обновления данных!");
+            }
+        }
+
         private void UpdateListView()
         {
+            ListViewArticles.Items.Clear();
             Serializable serializable = new Serializable(ListViewArticles);
             Articles articles = serializable.DeserializiXML();
 
             foreach (Article item in articles.ArticleList)
             {
                 ListViewItem LVI = new ListViewItem();
+                ListViewItem LVIDate = new ListViewItem();
                 LVI.Tag = item;
+                LVIDate.Tag = item;
                 LVI.Content = item.Name;
+                LVIDate.Content = item.Date_create.ToString();
 
                 ListViewArticles.Items.Add(LVI);
+                ListViewDate.Items.Add(LVIDate);
             }
         }
 
@@ -68,7 +93,8 @@ namespace Wallet
             {
                 ListViewItem listviewitem = (ListViewItem)ListViewArticles.SelectedItems[0];
                 ListViewArticles.Items.Remove(listviewitem);
-
+                ListViewDate.Items.Remove(listviewitem);
+                
                 Serializable serializable = new Serializable(ListViewArticles);
                 serializable.SerializableDate();
 
@@ -78,8 +104,9 @@ namespace Wallet
         void lv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ListViewItem listviewitem = (ListViewItem)ListViewArticles.SelectedItems[0];
+            int index = ListViewArticles.SelectedIndex;
             Article article = (Article)listviewitem.Tag;
-            RedactArticle redactArticle = new RedactArticle(article);
+            RedactArticle redactArticle = new RedactArticle(article, index);
             redactArticle.Show();
         }
 

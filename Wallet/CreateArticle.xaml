@@ -16,7 +16,7 @@
             <Label Content="Название новой заметки:" Grid.Row="0"/>
         <TextBox x:Name="NameTextBox" Grid.Row="1"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" Grid.Row="4">
-            <Button Content="Создать" Margin="5" Click="Click_CreateArticle"/>
+            <Button Content="Создать" Margin="5" Click="Click_CreateArticle" IsDefault="True"/>
             <Button Content="Отмена" Margin="5" Click="Click_CloseWindow"/>
         </StackPanel>
     </Grid>

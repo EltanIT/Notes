@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Xml.Serialization;
 
 namespace Wallet
@@ -18,6 +19,7 @@ namespace Wallet
         {
             InitializeComponent();
             ListViewArticles = listViewArticles;
+            FocusManager.SetFocusedElement(this, NameTextBox);
         }
 
       
@@ -43,7 +45,7 @@ namespace Wallet
             else
             {
                 MessageBox.Show("Введите название записи!");
-            }
+            }ы
             
         }
 
