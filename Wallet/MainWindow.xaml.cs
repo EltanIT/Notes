@@ -44,8 +44,6 @@ namespace Wallet
             {
                 ListViewDate = listViewArticlesDate;
             }
-            
-
         }
 
 
@@ -64,8 +62,8 @@ namespace Wallet
                 LVI.Content = item.Name;
                 LVIDate.Content = item.Date_create.ToString();
 
-                ListViewArticles.Items.Add(LVI);
-                ListViewDate.Items.Add(LVIDate);
+                ListViewArticles.Items.Insert(0, LVI);
+                ListViewDate.Items.Insert(0, LVIDate);
             }
         }
 

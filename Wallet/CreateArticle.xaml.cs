@@ -33,7 +33,7 @@ namespace Wallet
                 LVI.Tag = article;
                 LVI.Content = article.Name;
 
-                ListViewArticles.Items.Add(LVI);
+                ListViewArticles.Items.Insert(0, LVI);
 
                 Serializable serializable = new Serializable(ListViewArticles);
                 serializable.SerializableDate();
