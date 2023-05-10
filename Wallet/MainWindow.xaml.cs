@@ -31,8 +31,7 @@ namespace Wallet
             }
             catch (Exception)
             {
-
-                MessageBox.Show("Ошибка загрузки данных!");
+                MessageBox.Show("Ошибка загрузки данных! Попробуйте перезапустить приложение");
             }
            
         }
@@ -40,36 +39,40 @@ namespace Wallet
         public void Update(ListView listViewArticles, ListView listViewArticlesDate = null)
         {
             ListViewArticles = listViewArticles;
+
             if (listViewArticlesDate != null)
             {
                 ListViewDate = listViewArticlesDate;
             }
+            UpdateListView();
         }
-
 
         private void UpdateListView()
         {
             ListViewArticles.Items.Clear();
+            ListViewDate.Items.Clear();
+
             Serializable serializable = new Serializable(ListViewArticles);
             Articles articles = serializable.DeserializiXML();
 
             foreach (Article item in articles.ArticleList)
             {
                 ListViewItem LVI = new ListViewItem();
-                ListViewItem LVIDate = new ListViewItem();
                 LVI.Tag = item;
-                LVIDate.Tag = item;
                 LVI.Content = item.Name;
+            
+                ListViewItem LVIDate = new ListViewItem();
+                LVIDate.Tag = item;
                 LVIDate.Content = item.Date_create.ToString();
 
-                ListViewArticles.Items.Insert(0, LVI);
-                ListViewDate.Items.Insert(0, LVIDate);
+                ListViewArticles.Items.Add(LVI);
+                ListViewDate.Items.Add(LVIDate);
             }
         }
 
         private void Click_AddArticle(object sender, RoutedEventArgs e)
         {
-            CreateArticle createArticle = new CreateArticle(ListViewArticles);
+            CreateArticle createArticle = new CreateArticle(ListViewArticles, ListViewDate);
             createArticle.Show();
         }
 
@@ -78,9 +81,10 @@ namespace Wallet
             if (ListViewArticles.SelectedItems.Count == 1)
             {
                 ListViewItem listviewitem = (ListViewItem)ListViewArticles.SelectedItems[0];
+                int index = ListViewArticles.SelectedIndex;
 
                 ListViewArticles.Items.Remove(listviewitem);
-                ListViewDate.Items.Remove(listviewitem);
+                ListViewDate.Items.RemoveAt(index);
                 
                 Serializable serializable = new Serializable(ListViewArticles);
                 serializable.SerializableDate();

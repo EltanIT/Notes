@@ -13,33 +13,38 @@ namespace Wallet
     public partial class CreateArticle : Window
     {
 
-        public ListView ListViewArticles { get; set; }
+        private ListView ListViewArticles;
+        private ListView ListViewDate;
 
-        public CreateArticle(ListView listViewArticles)
+        public CreateArticle(ListView listViewArticles, ListView listViewDate)
         {
             InitializeComponent();
             ListViewArticles = listViewArticles;
+            ListViewDate = listViewDate;
             FocusManager.SetFocusedElement(this, NameTextBox);
         }
 
-      
         private void Click_CreateArticle(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(NameTextBox.Text))
             {
-                Article article = new Article(NameTextBox.Text, "Описание", DateTime.Now);
+                Article article = new Article(NameTextBox.Text, " ", DateTime.Now);
 
                 ListViewItem LVI = new ListViewItem();
+                ListBoxItem LVIDate = new ListBoxItem();
                 LVI.Tag = article;
+                LVIDate.Tag = article;
                 LVI.Content = article.Name;
+                LVIDate.Content = DateTime.Now.ToString();
 
                 ListViewArticles.Items.Insert(0, LVI);
+                ListViewDate.Items.Insert(0, LVIDate);
 
                 Serializable serializable = new Serializable(ListViewArticles);
                 serializable.SerializableDate();
 
                 MainWindow mainWindow = new MainWindow();
-                mainWindow.Update(ListViewArticles);
+                mainWindow.Update(ListViewArticles,ListViewDate);
                 Close();
             }
             else
