@@ -28,17 +28,8 @@ namespace Wallet
         {
             if (!string.IsNullOrWhiteSpace(NameTextBox.Text))
             {
-                Article article = new Article(NameTextBox.Text, " ", DateTime.Now);
-
-                ListViewItem LVI = new ListViewItem();
-                ListBoxItem LVIDate = new ListBoxItem();
-                LVI.Tag = article;
-                LVIDate.Tag = article;
-                LVI.Content = article.Name;
-                LVIDate.Content = DateTime.Now.ToString();
-
-                ListViewArticles.Items.Insert(0, LVI);
-                ListViewDate.Items.Insert(0, LVIDate);
+                UpdateArticle();
+                UpdateDate();
 
                 Serializable serializable = new Serializable(ListViewArticles);
                 serializable.SerializableDate();
@@ -52,6 +43,24 @@ namespace Wallet
                 MessageBox.Show("Введите название записи!");
             }
             
+        }
+
+        private void UpdateArticle()
+        {
+            Article article = new Article(NameTextBox.Text, " ", DateTime.Now);
+            ListViewItem LVI = new ListViewItem();
+            LVI.Tag = article;
+            LVI.Content = article.Name;
+            ListViewArticles.Items.Insert(0, LVI);
+        }
+
+        private void UpdateDate()
+        {
+            Article article = new Article(NameTextBox.Text, " ", DateTime.Now);
+            ListBoxItem LVIDate = new ListBoxItem();
+            LVIDate.Tag = article;
+            LVIDate.Content = DateTime.Now.ToString();
+            ListViewDate.Items.Insert(0, LVIDate);
         }
 
         private void Click_CloseWindow(object sender, RoutedEventArgs e)
